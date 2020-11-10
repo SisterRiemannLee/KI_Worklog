@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 10 16:19:48 2020
+Get the coordinate of mouse and convert the screen metric
+to the window size metric according to PC's size, and the
+obtained data is then fed to the main ipynb file as input
+data.
 
 @author: Riemann Lee
 """
@@ -34,11 +37,20 @@ calculation from mouse tragectory to the input data. I have:
 The parameters list here is dependent on personal computer screen's
 size, and I use these parameters to change test dataset.
 """
-Screen_Size =  [1920, 1080]
-Upper_Left_Corner = [502, 193]
-Bottom_Right_Corner = [1467, 917]
-Window_Size = [Bottom_Right_Corner[0] - Upper_Left_Corner[0], Bottom_Right_Corner[1] - Upper_Left_Corner[1]]
+Width_Max = 800
+Height_Max = 600
 
-Scaling_Factor = [ 800 / Window_Size[0], 600 / Window_Size[1] ]
-# np.save('Trajectory.npy', Trajectory)
-# struggle with the dims of the Trajectory
+Screen_Size =  np.array([1920, 1080])
+Upper_Left_Corner = np.array([502, 193])
+Bottom_Right_Corner = np.array([1467, 917])
+Window_Size_Screen = Bottom_Right_Corner - Upper_Left_Corner
+
+Window_Size = np.array([Width_Max, Height_Max])
+Scaling_Factor = Window_Size / Window_Size_Screen
+
+# change the list to numpy array for the convenience of computation
+Trajectory_Sequence = np.asarray(Trajectory)
+Input_Sequence = (Trajectory_Sequence - Upper_Left_Corner) * Scaling_Factor
+# delete the first and last 10 element for sake of manual noise
+np.save('Trajectory.npy', Input_Sequence[10:-10])
+
