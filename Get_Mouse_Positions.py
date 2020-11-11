@@ -51,6 +51,7 @@ Scaling_Factor = Window_Size / Window_Size_Screen
 # change the list to numpy array for the convenience of computation
 Trajectory_Sequence = np.asarray(Trajectory)
 Input_Sequence = (Trajectory_Sequence - Upper_Left_Corner) * Scaling_Factor
-# delete the first and last 10 element for sake of manual noise
-np.save('Trajectory.npy', Input_Sequence[10:-10])
+# delete the last 10 element for sake of manual noise
+# np.save('Trajectory.npy', Input_Sequence[10:-10])
+np.save('Trajectory.npy', Input_Sequence[:-10])
 
