@@ -48,3 +48,4 @@ for count, value in enumerate(Centers):
 
 # Show the map with landmarks
 plt.show()
+fig.savefig("img/Map_With_Landmarks.png")
