@@ -32,12 +32,12 @@ ax.imshow(img)
 # Note that the more landmarks we are creating, then the more computation time we require.
 
 # Version 1: 10 landmarks
-# Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
-# Radius=[12,32,7,8,13,6,7,8,9,10]
+Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
+Radius=[12,32,7,8,13,6,7,8,9,10]
 
 # Version 2: 5 landmarks
-Centers = np.array([ [336,175], [718,159], [510,43], [167, 333], [472, 437] ])
-Radius=[12,6,7,18,9]
+# Centers = np.array([ [336,175], [718,159], [510,43], [167, 333], [472, 437] ])
+# Radius=[12,6,7,18,9]
 
 if len(Centers) != len(Radius):
     raise ValueError("Centers and Radius must have the same size!")
@@ -48,4 +48,4 @@ for count, value in enumerate(Centers):
 
 # Show the map with landmarks
 plt.show()
-fig.savefig("img/Map_With_Landmarks.png")
+fig.savefig("img/Map_With_Landmarks_1.png")

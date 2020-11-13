@@ -53,5 +53,5 @@ Trajectory_Sequence = np.asarray(Trajectory)
 Input_Sequence = (Trajectory_Sequence - Upper_Left_Corner) * Scaling_Factor
 # delete the last 10 element for sake of manual noise
 # np.save('Trajectory.npy', Input_Sequence[10:-10])
-np.save('Trajectory.npy', Input_Sequence[:-10])
+np.save('Trajectory_1.npy', Input_Sequence[:-10])
 
