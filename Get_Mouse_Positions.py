@@ -10,7 +10,11 @@ data.
 import os, time
 import numpy as np
 import pyautogui as pag
+from Draw_Landmarks import Centers, Radius
+
 Trajectory = []
+delta_t = 0.5
+
 try:
     while True:
         print("Press Ctrl-C to end")
@@ -20,7 +24,7 @@ try:
         # Print the coordinate of mouse on the console
         print("Screen size: (%s %s),  Position : (%s, %s)\n" % (screenWidth, screenHeight, x, y))  
  
-        time.sleep(0.5)  # print the point of the screen every half second
+        time.sleep(delta_t)  # print the point of the screen every half second
         os.system('cls')  # clear the screen
 except KeyboardInterrupt:
     print('end')
@@ -52,6 +56,20 @@ Scaling_Factor = Window_Size / Window_Size_Screen
 Trajectory_Sequence = np.asarray(Trajectory)
 Input_Sequence = (Trajectory_Sequence - Upper_Left_Corner) * Scaling_Factor
 # delete the last 10 element for sake of manual noise
-# np.save('Trajectory.npy', Input_Sequence[10:-10])
-np.save('Trajectory_1.npy', Input_Sequence[:-10])
+# and this Trajectory data should not be given out
+# give velocity (as transition?) and distance to landmarks (as observation?)
+np.save('./archive/Trajectory_1.npy', Input_Sequence[:-10])
 
+# Now we have got the robot's trajectory (type np.ndarray), now use
+# this to derive velocity (with angle) and distance information
+angle_and_velocity = []
+distance = []
+
+for i in range(len(Input_Sequence)-1):
+    angle = np.arctan2(Input_Sequence[i+1, 1] - Input_Sequence[i, 1], Input_Sequence[i+1, 0] - Input_Sequence[i, 0])
+    velocity = np.linalg.norm(Input_Sequence[i+1] - Input_Sequence[i]) / delta_t
+    angle_and_velocity.append([angle, velocity])
+    dis = np.linalg.norm(Input_Sequence[i] - Centers, axis=1, keepdims=True) -
+    distance.append(dis)
+np.save('./data/velocity_1.npy', np.asarray(angle_and_velocity))
+np.save('./data/distance_1.npy', np.asarray(distance))
