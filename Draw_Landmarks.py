@@ -38,7 +38,7 @@ Radius = np.array([ [12], [6], [7], [18], [9] ])
 
 # Version 2: 10 landmarks
 # Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
-# Radius=[12,32,7,8,13,6,7,8,9,10]
+# Radius=np.array([ [12], [32], [7], [8], [13], [6], [7], [8], [9], [10] ])
 
 if len(Centers) != len(Radius):
     raise ValueError("Centers and Radius must have the same size!")

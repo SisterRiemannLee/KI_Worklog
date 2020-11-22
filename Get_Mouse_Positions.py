@@ -55,21 +55,23 @@ Scaling_Factor = Window_Size / Window_Size_Screen
 # change the list to numpy array for the convenience of computation
 Trajectory_Sequence = np.asarray(Trajectory)
 Input_Sequence = (Trajectory_Sequence - Upper_Left_Corner) * Scaling_Factor
+Output_Sequence = Input_Sequence[:-10]
 # delete the last 10 element for sake of manual noise
 # and this Trajectory data should not be given out
 # give velocity (as transition?) and distance to landmarks (as observation?)
-np.save('./archive/Trajectory_1.npy', Input_Sequence[:-10])
+np.save('./archive/Trajectory_1.npy', Output_Sequence)
 
 # Now we have got the robot's trajectory (type np.ndarray), now use
 # this to derive velocity (with angle) and distance information
 angle_and_velocity = []
 distance = []
 
-for i in range(len(Input_Sequence)-1):
-    angle = np.arctan2(Input_Sequence[i+1, 1] - Input_Sequence[i, 1], Input_Sequence[i+1, 0] - Input_Sequence[i, 0])
-    velocity = np.linalg.norm(Input_Sequence[i+1] - Input_Sequence[i]) / delta_t
+# don't forger to change the correspoin
+for i in range(len(Output_Sequence)-1):
+    angle = np.arctan2(Output_Sequence[i+1, 1] - Output_Sequence[i, 1], Output_Sequence[i+1, 0] - Output_Sequence[i, 0])
+    velocity = np.linalg.norm(Output_Sequence[i+1] - Output_Sequence[i]) / delta_t
     angle_and_velocity.append([angle, velocity])
-    dis = np.linalg.norm(Input_Sequence[i] - Centers, axis=1, keepdims=True) -
+    dis = np.linalg.norm(Output_Sequence[i] - Centers, axis=1, keepdims=True) - Radius
     distance.append(dis)
 np.save('./data/velocity_1.npy', np.asarray(angle_and_velocity))
 np.save('./data/distance_1.npy', np.asarray(distance))
