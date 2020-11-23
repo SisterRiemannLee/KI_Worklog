@@ -15,6 +15,7 @@ from Draw_Landmarks import Centers, Radius
 Trajectory = []
 delta_t = 0.5
 
+
 try:
     while True:
         print("Press Ctrl-C to end")
