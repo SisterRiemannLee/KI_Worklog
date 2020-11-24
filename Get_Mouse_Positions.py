@@ -67,10 +67,12 @@ np.save('./archive/Trajectory_1.npy', Output_Sequence)
 angle_and_velocity = []
 distance = []
 
-# don't forger to change the correspoin
+# add noise to angle is a good idea since the bias is too large
+# just add noise to velocity seems fine
+
 for i in range(len(Output_Sequence)-1):
     angle = np.arctan2(Output_Sequence[i+1, 1] - Output_Sequence[i, 1], Output_Sequence[i+1, 0] - Output_Sequence[i, 0])
-    velocity = np.linalg.norm(Output_Sequence[i+1] - Output_Sequence[i]) / delta_t
+    velocity = np.linalg.norm(Output_Sequence[i+1] - Output_Sequence[i]) / delta_t + np.random.randn()
     angle_and_velocity.append([angle, velocity])
     dis = np.linalg.norm(Output_Sequence[i] - Centers, axis=1, keepdims=True) - Radius
     distance.append(dis)
