@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
-img = plt.imread('img/Canvas.png')
+img = plt.imread('./img/Canvas.png')
 
 fig,ax = plt.subplots(1)
 ax.spines['left'].set_position('zero')
@@ -31,14 +31,25 @@ ax.imshow(img)
 # Given centers of cicular landmarks and it's radius
 # Note that the more landmarks we are creating, then the more computation time we require.
 
+# Version 0: Rejection Sampling Example
+# Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
+# Radius = np.array([ [12], [32], [27], [28], [13], [16], [37], [18], [9], [20] ])
+
 
 # Version 1: 5 landmarks
-Centers = np.array([ [336,175], [718,159], [510,43], [167, 333], [472, 437] ])
-Radius = np.array([ [12], [6], [7], [18], [9] ])
+# Centers = np.random.uniform([0, 0], [800, 600], size=(5,2))
+# Radius = np.random.uniform(0, 30, size=(5,1))
+# Centers = np.array([ [336,175], [718,159], [510,43], [167, 333], [472, 437] ])
+# Radius = np.array([ [12], [6], [7], [18], [9] ])
 
 # Version 2: 10 landmarks
-# Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
-# Radius=np.array([ [12], [32], [7], [8], [13], [6], [7], [8], [9], [10] ])
+Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
+Radius = np.array([ [12], [32], [7], [28], [13], [16], [7], [18], [9], [20] ])
+
+
+# Centers = np.random.uniform([0, 0], [800, 600], size=(10,2))
+# Radius = np.random.uniform(0, 30, size=(10,1))
+
 
 if len(Centers) != len(Radius):
     raise ValueError("Centers and Radius must have the same size!")
@@ -49,4 +60,5 @@ for count, value in enumerate(Centers):
 
 # Show the map with landmarks
 plt.show()
-fig.savefig("./img/Map_With_Landmarks_1.png")
+fig.savefig("./img/Map_With_Landmarks_2.png")
+# fig.savefig("./img/Map_Rejection_Sampling.png")

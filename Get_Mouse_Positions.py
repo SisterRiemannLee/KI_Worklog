@@ -72,7 +72,7 @@ distance = []
 
 for i in range(len(Output_Sequence)-1):
     angle = np.arctan2(Output_Sequence[i+1, 1] - Output_Sequence[i, 1], Output_Sequence[i+1, 0] - Output_Sequence[i, 0])
-    velocity = np.linalg.norm(Output_Sequence[i+1] - Output_Sequence[i]) / delta_t + np.random.randn()
+    velocity = np.linalg.norm(Output_Sequence[i+1] - Output_Sequence[i]) / delta_t
     angle_and_velocity.append([angle, velocity])
     dis = np.linalg.norm(Output_Sequence[i] - Centers, axis=1, keepdims=True) - Radius
     distance.append(dis)
