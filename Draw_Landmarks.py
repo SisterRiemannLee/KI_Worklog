@@ -11,54 +11,43 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 
-img = plt.imread('./img/Canvas.png')
+# Generate centers of cicular landmarks and it's radii
+for i in range(10):
+    img = plt.imread('./img/Canvas.png')
+    fig,ax = plt.subplots(1)
+    ax.spines['left'].set_position('zero')
+    ax.spines['right'].set_position(('data', 800))
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['top'].set_position(('data', 600))
+    # Create a figure. Equal aspect so circles look circular
+    ax.set_aspect('equal')
 
-fig,ax = plt.subplots(1)
-ax.spines['left'].set_position('zero')
-ax.spines['right'].set_position(('data', 800))
-ax.spines['bottom'].set_position('zero')
-ax.spines['top'].set_position(('data', 600))
-# Create a figure. Equal aspect so circles look circular
-ax.set_aspect('equal')
+    # Don't use any ticks to make the image more visible
+    plt.xticks([])
+    plt.yticks([])
 
-# Don't use any ticks to make the image more visible
-plt.xticks([])
-plt.yticks([])
-
-# Show the image
-ax.imshow(img)
-
-# Given centers of cicular landmarks and it's radius
-# Note that the more landmarks we are creating, then the more computation time we require.
+    # Show the image
+    ax.imshow(img)
+    
+    Centers = np.random.uniform([0, 0], [800, 600], size=(10,2))
+    np.save('./data/centers/centers_%s.npy' %i, Centers)
+    Radii = np.random.uniform(0, 30, size=(10,1))
+    np.save('./data/radii/radii_%s.npy' %i, Radii)
+    
+    if len(Centers) != len(Radii):
+        raise ValueError("Centers and Radii must have the same size!")
+    
+    # Now, loop through coord arrays, and create a circle at center    
+    for count, value in enumerate(Centers):
+        circ = Circle(value,Radii[count])
+        ax.add_patch(circ)
+    
+    fig.savefig("./img/Map_With_Landmarks_%s.png" %i)
 
 # Version 0: Rejection Sampling Example
 # Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
-# Radius = np.array([ [12], [32], [27], [28], [13], [16], [37], [18], [9], [20] ])
-
-
-# Version 1: 5 landmarks
-# Centers = np.random.uniform([0, 0], [800, 600], size=(5,2))
-# Radius = np.random.uniform(0, 30, size=(5,1))
-# Centers = np.array([ [336,175], [718,159], [510,43], [167, 333], [472, 437] ])
-# Radius = np.array([ [12], [6], [7], [18], [9] ])
-
-# Version 2: 10 landmarks
-Centers = np.array([ [144,73], [510,43], [336,175], [718,159], [178,484], [665,464], [267, 333], [541, 300], [472, 437], [100, 533] ])
-Radius = np.array([ [12], [32], [7], [28], [13], [16], [7], [18], [9], [20] ])
-
-
-# Centers = np.random.uniform([0, 0], [800, 600], size=(10,2))
-# Radius = np.random.uniform(0, 30, size=(10,1))
-
-
-if len(Centers) != len(Radius):
-    raise ValueError("Centers and Radius must have the same size!")
-# Now, loop through coord arrays, and create a circle at center
-for count, value in enumerate(Centers):
-    circ = Circle(value,Radius[count])
-    ax.add_patch(circ)
-
+# np.save('./data/centers/example_centers.npy', Centers)
+# Radii = np.array([ [12], [32], [27], [28], [13], [16], [37], [18], [9], [20] ])
+# np.save('./data/radii/example_radii.npy', Radii)
 # Show the map with landmarks
-plt.show()
-fig.savefig("./img/Map_With_Landmarks_2.png")
 # fig.savefig("./img/Map_Rejection_Sampling.png")

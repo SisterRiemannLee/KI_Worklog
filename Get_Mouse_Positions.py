@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Get the coordinate of mouse and convert the screen metric
+Get the coordinate of mouse and convert the screen metric 
 to the window size metric according to PC's size, and the
 obtained data is then fed to the main ipynb file as input
 data.
@@ -10,10 +10,10 @@ data.
 import os, time
 import numpy as np
 import pyautogui as pag
-from Draw_Landmarks import Centers, Radius
+
 
 Trajectory = []
-delta_t = 0.5
+delta_t = 0.4
 
 
 try:
@@ -60,21 +60,21 @@ Output_Sequence = Input_Sequence[:-10]
 # delete the last 10 element for sake of manual noise
 # and this Trajectory data should not be given out
 # give velocity (as transition?) and distance to landmarks (as observation?)
-np.save('./archive/Trajectory_1.npy', Output_Sequence)
+np.save('./data/trajectory/example_trajectory.npy', Output_Sequence)
 
 # Now we have got the robot's trajectory (type np.ndarray), now use
 # this to derive velocity (with angle) and distance information
 angle_and_velocity = []
 distance = []
 
-# add noise to angle is a good idea since the bias is too large
-# just add noise to velocity seems fine
+Centers = np.load('./data/centers/example_centers.npy')
+Radii = np.load('./data/radii/example_radii.npy')
 
 for i in range(len(Output_Sequence)-1):
     angle = np.arctan2(Output_Sequence[i+1, 1] - Output_Sequence[i, 1], Output_Sequence[i+1, 0] - Output_Sequence[i, 0])
     velocity = np.linalg.norm(Output_Sequence[i+1] - Output_Sequence[i]) / delta_t
     angle_and_velocity.append([angle, velocity])
-    dis = np.linalg.norm(Output_Sequence[i] - Centers, axis=1, keepdims=True) - Radius
+    dis = np.linalg.norm(Output_Sequence[i] - Centers, axis=1, keepdims=True) - Radii
     distance.append(dis)
-np.save('./data/velocity_1.npy', np.asarray(angle_and_velocity))
-np.save('./data/distance_1.npy', np.asarray(distance))
+np.save('./data/velocity/example_velocity.npy', np.asarray(angle_and_velocity))
+np.save('./data/distance/example_distance.npy', np.asarray(distance))
